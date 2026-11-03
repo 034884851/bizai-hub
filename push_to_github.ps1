@@ -1,9 +1,9 @@
 # BizAI Hub - GitHub Push & Pages Helper Script
-# Usage in PowerShell: .\push_to_github.ps1 -RepoUrl "https://github.com/<your-username>/bizai-hub.git"
+# Usage in PowerShell: .\push_to_github.ps1
 
 param (
     [Parameter(Mandatory=$false)]
-    [string]$RepoUrl = ""
+    [string]$RepoUrl = "https://github.com/034884851/bizai-hub.git"
 )
 
 Write-Host "============================================================" -ForegroundColor Cyan
@@ -56,7 +56,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "1. Go to your GitHub repo Settings -> Pages"
     Write-Host "2. Under 'Build and deployment', set Source to 'Deploy from a branch'"
     Write-Host "3. Set Branch to 'main' and folder to '/ (root)', then click Save."
-    Write-Host "4. Your site will be live at: https://<username>.github.io/<repo-name>/" -ForegroundColor Yellow
+    Write-Host "4. Your site will be live at: https://034884851.github.io/bizai-hub/" -ForegroundColor Yellow
 } else {
     Write-Host "`n[ERROR] Git push failed. Please check your GitHub permissions or token." -ForegroundColor Red
 }

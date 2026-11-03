@@ -1,19 +1,19 @@
 # BizAI Hub・中原企管 AI Agent 落地實戰講義庫與知識 Wiki
 
-[![Site Status](https://img.shields.io/badge/Status-Live%20Ready-brightgreen)](https://simon4884851.github.io/bizai-hub/)
+[![Site Status](https://img.shields.io/badge/Status-Live%20Ready-brightgreen)](https://034884851.github.io/bizai-hub/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Design System](https://img.shields.io/badge/Design-DiveAI%20Style-orange)](#)
 [![Architecture](https://img.shields.io/badge/Architecture-Karpathy%20LLM%20Wiki-teal)](#)
 
-> 本專案為國立政治大學 115-1 TAICA《生成式 AI》第九週作業成果：**建立一個自己的 AGENTS.md 或 CLAUDE.md**。  
+> 本專案為中原大學企管系三丁 劉正祥（學號 11341461）之生成式 AI 實作成果：**建立一個自己的 AGENTS.md 或 CLAUDE.md**。  
 > 告別單次拼湊的「Vibe Coding」，建立一套讓 AI 代理人（Claude / Codex / Antigravity / Cursor）能持續遵循、無限擴充新內容的企業級工程規準。
 
 ---
 
 ## 🌐 網頁成果與專案連結
 
-- **線上瀏覽成果（GitHub Pages）**：[https://simon4884851.github.io/bizai-hub/](https://simon4884851.github.io/bizai-hub/) （或本機 `index.html`）
-- **GitHub Repository**：[https://github.com/simon4884851/bizai-hub](https://github.com/simon4884851/bizai-hub)
+- **線上瀏覽成果（GitHub Pages）**：[https://034884851.github.io/bizai-hub/](https://034884851.github.io/bizai-hub/) （或本機 `index.html`）
+- **GitHub Repository**：[https://github.com/034884851/bizai-hub](https://github.com/034884851/bizai-hub)
 - **專案核心規範文件**：[`AGENTS.md`](AGENTS.md) ｜ [`CLAUDE.md`](CLAUDE.md)
 - **完整作業繳交報告**：[`作業說明與繳交報告.md`](作業說明與繳交報告.md)
 
