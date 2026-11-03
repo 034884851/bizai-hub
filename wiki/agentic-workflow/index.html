@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>代理式工作流 (Agentic Workflow) | BizAI Hub 知識庫</title>
+  <meta name="description" content="解析代理式工作流（Agentic Workflow）的循環機制：觀察、思考、呼叫工具、自我反思與企業級自動化應用。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/wiki.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="site-nav">
+        <a href="../../index.html" class="brand-logo">
+          <div class="brand-icon">📚</div>
+          <div class="brand-text">
+            <h1>BizAI Hub</h1>
+            <span>企管 AI Agent 知識與講義庫</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="nav-link">回總覽首頁</a></li>
+          <li><a href="../../index.html#lessons-section" class="nav-link">講義庫</a></li>
+          <li><a href="../../index.html#wiki-section" class="nav-link active">LLM Wiki</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="wiki-layout">
+      <!-- Sidebar TOC -->
+      <aside class="wiki-sidebar">
+        <div class="wiki-sidebar-title">📑 本頁目錄</div>
+        <ul class="toc-list" id="tocList">
+          <!-- Dynamically populated by scripts/wiki.js -->
+        </ul>
+        <div class="wiki-sidebar-meta">
+          <span>🏷️ 類別：代理技術</span>
+          <span>📅 最後更新：2026-11-03</span>
+          <span>✍️ 維護者：BizAI Wiki AI Agent</span>
+        </div>
+      </aside>
+
+      <!-- Main Article -->
+      <article class="wiki-article">
+        <div class="tape tape-right tape-yellow"></div>
+        
+        <nav class="wiki-breadcrumbs" aria-label="麵包屑導覽">
+          <a href="../../index.html">首頁</a>
+          <span>›</span>
+          <a href="../../index.html#wiki-section">LLM Wiki 知識庫</a>
+          <span>›</span>
+          <span>代理式工作流 (Agentic Workflow)</span>
+        </nav>
+
+        <header class="wiki-header">
+          <div class="wiki-meta-row">
+            <span class="badge-pill">核心理論</span>
+            <span class="karpathy-pill">Karpathy Layer 2 · 知識詞條</span>
+          </div>
+          <h1 class="wiki-title">代理式工作流 (Agentic Workflow)</h1>
+          <div class="wiki-lead-summary">
+            代理式工作流（Agentic Workflow）指大型語言模型不再僅被動接收單次提示並輸出靜態文本，而是以「自主代理人（Autonomous Agent）」姿態，在封閉或半自主循環中持續進行「規劃（Plan）→ 執行（Act）→ 觀察（Observe）→ 反思修正（Reflect）」的多步驟閉環運作。
+          </div>
+        </header>
+
+        <div class="wiki-body">
+          <h2 id="concept-overview"><span class="heading-marker">✦</span> 概念定義與本質拆解</h2>
+          <p>
+            在傳統大型語言模型應用中，使用者與模型的互動是「單次推進（Single-Pass）」：提一個問題，獲取一次回答。一旦答案存在邏輯破綻或資料缺失，模型無法自主補救。
+          </p>
+          <p>
+            代理式工作流將模型嵌入一個具備狀態機（State Machine）的運行環境（Harness）。其核心特徵包含四大機制：
+          </p>
+          <ul>
+            <li><b>動態任務拆解（Decomposition & Planning）：</b>將一個龐雜的高階指令（如「分析這份 100 頁的企業永續報告書」）拆解為循序漸進的微型子任務。</li>
+            <li><b>工具調用閉環（Tool Execution Loop）：</b>AI 根據需要主動決定讀取哪份檔案、查詢哪個 API，並接收環境回傳的真實輸出。</li>
+            <li><b>狀態記憶持久化（State Persistence）：</b>跨多輪步驟保存中繼變數與推論歷程，即使某個步驟失敗也能回滾或重試。</li>
+            <li><b>自我反思與批判（Self-Reflection）：</b>在提交最終成品前，扮演審稿者角色對自身產出進行質量檢驗。</li>
+          </ul>
+
+          <h2 id="business-scenario"><span class="heading-marker">✦</span> 企業商管應用情境</h2>
+          <div class="biz-case-box">
+            <span class="biz-badge">🏢 企管落地實例：供應鏈庫存異常預警與採購決策特工</span>
+            <h4>多部門資料串接與跨系統自動決策</h4>
+            <p>
+              某跨國製造企業過往需配置 3 名專員，每日手動比對 ERP 庫存水位、即時航運 API 與天氣警報。導入代理式工作流後：
+              <br><br>
+              1. <b>每日自動觸發：</b>Agent 於凌晨 04:00 自動讀取供應商進度與海外船期。<br>
+              2. <b>偵測到紅海航道延誤：</b>自動調用本地 SQL 查詢關鍵物料安全天數，發現 14 天後將斷料。<br>
+              3. <b>執行避險試算：</b>自動比對備用供應商報價與航空運費，生成採購決策簡報。<br>
+              4. <b>提交核准：</b>於上班時將完整的決策建議與公文草稿推播給採購總監，總監僅需一鍵核准即可完成採購簽核。
+            </p>
+          </div>
+
+          <h2 id="comparison-analysis"><span class="heading-marker">✦</span> 方案對比與決策矩陣</h2>
+          <p>商管決策者在評估自動化技術時，常將傳統 RPA（機器人流程自動化）與 Agentic Workflow 混淆，其核心維度差異如下：</p>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>指標維度</th>
+                <th>傳統 RPA / 寫死腳本</th>
+                <th>對話式 LLM (Chat)</th>
+                <th>代理式工作流 (Agentic Workflow)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>面對非預期異常</td>
+                <td>直接當機報錯</td>
+                <td>需人類重新下 Prompt</td>
+                <td>自主診斷錯誤、調整策略並自動重試</td>
+              </tr>
+              <tr>
+                <td>非結構化資料理解</td>
+                <td>極弱（僅能處理固定表格）</td>
+                <td>極強，但無法觸發後續系統</td>
+                <td>強大語意解析，並能調用工具落地操作</td>
+              </tr>
+              <tr>
+                <td>維護成本與適應彈性</td>
+                <td>介面一改整組重寫</td>
+                <td>每次從零開始</td>
+                <td>仰賴 <code>AGENTS.md</code> 集中配置，彈性極高</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="cross-references"><span class="heading-marker">✦</span> 延伸知識與雙向連結</h2>
+          <ul>
+            <li>關聯詞條：<a href="../context-engineering/index.html" class="wiki-link">上下文工程 (Context Engineering)</a></li>
+            <li>關聯詞條：<a href="../llm-wiki-architecture/index.html" class="wiki-link">Karpathy LLM Wiki 三層架構</a></li>
+            <li>關聯講義：<a href="../../lessons/agent-harness/index.html" class="wiki-link">AI Agent 核心裝備：Model ＋ Harness</a></li>
+            <li>關聯講義：<a href="../../lessons/prompt-to-agent/index.html" class="wiki-link">從 Prompt 提問到 Agentic 交辦</a></li>
+          </ul>
+        </div>
+
+        <!-- Raw source mapping footer -->
+        <footer class="wiki-raw-source">
+          <div class="raw-info">
+            <span>📥 本詞條依據原始資料庫自動收錄維護：</span>
+            <code>raw/01_agent_basics.md</code>
+          </div>
+          <a href="../../index.html#wiki-section" class="btn-action btn-secondary" style="padding:4px 14px; font-size:13px">返回詞條目錄</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer wrap">
+    <span>© 國立政治大學 企管系 · BizAI Hub 知識庫專案</span>
+    <span>Powered by AGENTS.md Standard & GitHub Pages 🚀</span>
+  </footer>
+
+  <script src="../../scripts/wiki.js"></script>
+</body>
+</html>

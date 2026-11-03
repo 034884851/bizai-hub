@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Karpathy LLM Wiki 三層架構 | BizAI Hub 知識庫</title>
+  <meta name="description" content="深入拆解 Andrej Karpathy 提出的 LLM Wiki 知識庫範式：raw/、wiki/ 與規則手冊的三層解耦設計。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/wiki.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="site-nav">
+        <a href="../../index.html" class="brand-logo">
+          <div class="brand-icon">📚</div>
+          <div class="brand-text">
+            <h1>BizAI Hub</h1>
+            <span>企管 AI Agent 知識與講義庫</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="nav-link">回總覽首頁</a></li>
+          <li><a href="../../index.html#lessons-section" class="nav-link">講義庫</a></li>
+          <li><a href="../../index.html#wiki-section" class="nav-link active">LLM Wiki</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="wiki-layout">
+      <!-- Sidebar TOC -->
+      <aside class="wiki-sidebar">
+        <div class="wiki-sidebar-title">📑 本頁目錄</div>
+        <ul class="toc-list" id="tocList">
+          <!-- Dynamically populated by scripts/wiki.js -->
+        </ul>
+        <div class="wiki-sidebar-meta">
+          <span>🏷️ 類別：知識工程</span>
+          <span>📅 最後更新：2026-11-03</span>
+          <span>✍️ 維護者：BizAI Wiki AI Agent</span>
+        </div>
+      </aside>
+
+      <!-- Main Article -->
+      <article class="wiki-article">
+        <div class="tape tape-right tape-teal"></div>
+        
+        <nav class="wiki-breadcrumbs" aria-label="麵包屑導覽">
+          <a href="../../index.html">首頁</a>
+          <span>›</span>
+          <a href="../../index.html#wiki-section">LLM Wiki 知識庫</a>
+          <span>›</span>
+          <span>Karpathy LLM Wiki 三層架構</span>
+        </nav>
+
+        <header class="wiki-header">
+          <div class="wiki-meta-row">
+            <span class="badge-pill teal">架構典範</span>
+            <span class="karpathy-pill">Karpathy Layer 2 · 知識詞條</span>
+          </div>
+          <h1 class="wiki-title">Karpathy LLM Wiki 三層架構</h1>
+          <div class="wiki-lead-summary">
+            Andrej Karpathy（OpenAI 共同創辦人、前 Tesla AI 總監）提出的「LLM Wiki」是一種將傳統分散式個人筆記重塑為「AI 負責編纂、人類負責閱讀」的高階知識管理模式。透過嚴格的三層解耦結構，知識能夠自主演進、自我查驗，解決碎片化資料沉積的困境。
+          </div>
+        </header>
+
+        <div class="wiki-body">
+          <h2 id="concept-overview"><span class="heading-marker">✦</span> 概念定義與本質拆解</h2>
+          <p>
+            在一般的個人與企業知識庫中，人類花費大量精力蒐集 PDF、會議錄音、外部文章，卻往往面臨「蒐集即遺忘」的僵局。當需要提取洞見時，只能仰賴粗糙的關鍵字搜尋，或是每次提問讓 AI 臨時對著成堆雜亂的原始檔做暴力語意檢索。
+          </p>
+          <p>
+            Karpathy 構想了一座由 AI 守護與維護的「動態 Wikipedia」：
+          </p>
+          <div class="note-dash teal">
+            <div class="note-dash-title">📖 Karpathy 經典原則</div>
+            <p style="font-size: 18px; font-weight: 700; color: var(--navy);">「你負責讀，AI 負責寫（You Read, AI Writes）。」</p>
+            <p>知識不是臨時捏造的，而是由 AI 持續消化、歸納、相互打上超連結，越養越厚實。</p>
+          </div>
+
+          <h2 id="three-layers"><span class="heading-marker">✦</span> LLM Wiki 的三層解耦結構</h2>
+          <p>一座健康的 LLM Wiki 必須具備清晰的權限與目錄劃分：</p>
+          
+          <div class="slide-cards" style="grid-template-columns: 1fr; margin: 20px 0;">
+            <div class="slide-card">
+              <div class="sticker">L1</div>
+              <h3>第一層：<code>raw/</code> 原始資料層（Ground Truth）</h3>
+              <p>存放真實世界的源頭材料（例如：企業財報、法規原始文本、課堂講義逐字稿、研討會簡報）。<br>
+              <b>AI 權限：</b>唯讀（Read-Only）。AI 絕對不可修改或刪除此目錄內容，確保事實無幻覺污染。</p>
+            </div>
+            <div class="slide-card teal">
+              <div class="sticker">L2</div>
+              <h3>第二層：<code>wiki/</code> 知識詞條層（Synthesized Knowledge）</h3>
+              <p>由 AI 主動消化整理的結構化頁面（概念詞條、人物介紹、企業案例、對照矩陣），詞條彼此具備高密度 <code>&lt;a class="wiki-link"&gt;</code> 互連。<br>
+              <b>AI 權限：</b>讀寫與持續維護（Read/Write）。AI 負責擴充新頁面、更新既有頁面內容。</p>
+            </div>
+            <div class="slide-card yellow">
+              <div class="sticker">L3</div>
+              <h3>第三層：<code>AGENTS.md / CLAUDE.md</code> 規則手冊層（The Constitution）</h3>
+              <p>定義知識庫的最高治理規章：詞條模版長什麼樣、雙向連結如何標註、排版標點與自動驗收指令。<br>
+              <b>AI 權限：</b>人類主導，AI 協商遵行（Human/AI Co-authored）。每次任務前必讀。</p>
+            </div>
+          </div>
+
+          <h2 id="three-operations"><span class="heading-marker">✦</span> 老闆交辦的三大核心指令</h2>
+          <p>人類管理者（老闆）只要向 AI 下達三種核心指令，就能輕鬆養育一座知識庫：</p>
+          <ul>
+            <li><b>1. 收錄（Ingest）：</b>「我放了一份新筆記 <code>raw/04_rag.md</code>，請為它建立 wiki 詞條，並將既有詞條中提到該概念的地方補上雙向連結。」</li>
+            <li><b>2. 提問（Query）：</b>「請根據現有 wiki，綜合比較 Agentic Workflow 與傳統 RPA 對企業 IT 部門的投資報酬率差異。」</li>
+            <li><b>3. 健檢（Lint）：</b>「請執行 <code>python tools/validate_site.py</code>，檢查是否有死連結、矛盾論述或未被任何頁面連到的孤島詞條。」</li>
+          </ul>
+
+          <h2 id="business-scenario"><span class="heading-marker">✦</span> 企業商管應用情境</h2>
+          <div class="biz-case-box">
+            <span class="biz-badge">🏢 企管落地實例：跨國零售集團的「營運 SOP 智庫」</span>
+            <h4>解決資深員工離職帶走知識的歷史痛點</h4>
+            <p>
+              某跨國連鎖零售品牌過往門市手冊散落在 200 多份 Word 與 PDF 中，店長調閱極其困難。導入 Karpathy LLM Wiki 體系後：
+              <br><br>
+              • 將總部行政公文自動歸入 <code>raw/</code>。<br>
+              • AI 自動編纂「退換貨處置」、「冷鏈溫控異常」、「收銀機離線作業」等 50 篇相互交叉連結的 Wiki 頁面。<br>
+              • 新進門市幹部平均訓練上手天數從 14 天大幅下降至 3 天，且遇到突發狀況可在 10 秒內獲取關聯完整解決方案。
+            </p>
+          </div>
+
+          <h2 id="cross-references"><span class="heading-marker">✦</span> 延伸知識與雙向連結</h2>
+          <ul>
+            <li>關聯詞條：<a href="../agentic-workflow/index.html" class="wiki-link">代理式工作流 (Agentic Workflow)</a></li>
+            <li>關聯詞條：<a href="../context-engineering/index.html" class="wiki-link">上下文工程 (Context Engineering)</a></li>
+            <li>關聯講義：<a href="../../lessons/agent-harness/index.html" class="wiki-link">AI Agent 核心裝備：Model ＋ Harness</a></li>
+            <li>關聯講義：<a href="../../lessons/prompt-to-agent/index.html" class="wiki-link">從 Prompt 提問到 Agentic 交辦</a></li>
+          </ul>
+        </div>
+
+        <!-- Raw source mapping footer -->
+        <footer class="wiki-raw-source">
+          <div class="raw-info">
+            <span>📥 本詞條依據原始資料庫自動收錄維護：</span>
+            <code>raw/03_karpathy_concept.md</code>
+          </div>
+          <a href="../../index.html#wiki-section" class="btn-action btn-secondary" style="padding:4px 14px; font-size:13px">返回詞條目錄</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer wrap">
+    <span>© 國立政治大學 企管系 · BizAI Hub 知識庫專案</span>
+    <span>Powered by AGENTS.md Standard & GitHub Pages 🚀</span>
+  </footer>
+
+  <script src="../../scripts/wiki.js"></script>
+</body>
+</html>

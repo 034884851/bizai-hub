@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ENTRY_TITLE}} | BizAI Hub 知識庫</title>
+  <meta name="description" content="{{ENTRY_DESCRIPTION}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/wiki.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="site-nav">
+        <a href="../../index.html" class="brand-logo">
+          <div class="brand-icon">📚</div>
+          <div class="brand-text">
+            <h1>BizAI Hub</h1>
+            <span>企管 AI Agent 知識與講義庫</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="nav-link">回總覽首頁</a></li>
+          <li><a href="../../index.html#lessons-section" class="nav-link">講義庫</a></li>
+          <li><a href="../../index.html#wiki-section" class="nav-link active">LLM Wiki</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="wiki-layout">
+      <!-- Sidebar TOC -->
+      <aside class="wiki-sidebar">
+        <div class="wiki-sidebar-title">📑 本頁目錄</div>
+        <ul class="toc-list" id="tocList">
+          <!-- Dynamically populated by scripts/wiki.js -->
+        </ul>
+        <div class="wiki-sidebar-meta">
+          <span>🏷️ 類別：{{CATEGORY}}</span>
+          <span>📅 最後更新：{{UPDATED_DATE}}</span>
+          <span>✍️ 維護者：BizAI Wiki AI Agent</span>
+        </div>
+      </aside>
+
+      <!-- Main Article -->
+      <article class="wiki-article">
+        <div class="tape tape-right tape-yellow"></div>
+        
+        <nav class="wiki-breadcrumbs" aria-label="麵包屑導覽">
+          <a href="../../index.html">首頁</a>
+          <span>›</span>
+          <a href="../../index.html#wiki-section">LLM Wiki 知識庫</a>
+          <span>›</span>
+          <span>{{ENTRY_TITLE}}</span>
+        </nav>
+
+        <header class="wiki-header">
+          <div class="wiki-meta-row">
+            <span class="badge-pill">{{CATEGORY}}</span>
+            <span class="karpathy-pill">Karpathy Layer 2 · 知識詞條</span>
+          </div>
+          <h1 class="wiki-title">{{ENTRY_TITLE}}</h1>
+          <div class="wiki-lead-summary">
+            {{ENTRY_DESCRIPTION}}
+          </div>
+        </header>
+
+        <div class="wiki-body">
+          <h2 id="concept-overview"><span class="heading-marker">✦</span> 概念定義與本質拆解</h2>
+          <p>
+            {{CONCEPT_OVERVIEW_CONTENT}}
+          </p>
+
+          <h2 id="business-scenario"><span class="heading-marker">✦</span> 企業商管應用情境</h2>
+          <div class="biz-case-box">
+            <span class="biz-badge">🏢 企管落地實例</span>
+            <h4>{{BIZ_CASE_TITLE}}</h4>
+            <p>{{BIZ_CASE_CONTENT}}</p>
+          </div>
+
+          <h2 id="comparison-analysis"><span class="heading-marker">✦</span> 方案對比與決策矩陣</h2>
+          <p>在導入 AI 系統時，決策者需清楚辨識架構差異：</p>
+          <!-- Comparison table or cards go here -->
+
+          <h2 id="cross-references"><span class="heading-marker">✦</span> 延伸知識與雙向連結</h2>
+          <ul>
+            <li>關聯概念：<a href="../agentic-workflow/index.html" class="wiki-link">代理式工作流 (Agentic Workflow)</a></li>
+            <li>關聯講義：<a href="../../lessons/agent-harness/index.html" class="wiki-link">AI Agent 核心裝備：Model ＋ Harness</a></li>
+          </ul>
+        </div>
+
+        <!-- Raw source mapping footer -->
+        <footer class="wiki-raw-source">
+          <div class="raw-info">
+            <span>📥 本詞條依據原始資料庫自動收錄維護：</span>
+            <code>raw/{{RAW_FILENAME}}</code>
+          </div>
+          <a href="../../index.html#wiki-section" class="btn-action btn-secondary" style="padding:4px 14px; font-size:13px">返回詞條目錄</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer wrap">
+    <span>© 國立政治大學 企管系 · BizAI Hub 知識庫專案</span>
+    <span>Powered by AGENTS.md Standard & GitHub Pages 🚀</span>
+  </footer>
+
+  <script src="../../scripts/wiki.js"></script>
+</body>
+</html>

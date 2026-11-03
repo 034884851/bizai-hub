@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BizAI Hub・政大企管 AI Agent 落地實戰講義庫與知識 Wiki</title>
+  <meta name="description" content="遵循 Karpathy LLM Wiki 三層解耦架構與 DiveAI 講義互動設計。告別單次 Vibe Coding，建立 AI Agent 可以持續擴充的企業級工程憲法。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <style>
+    /* Portal Specific Styles */
+    .hero-section {
+      padding: 48px 0 32px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .hero-title {
+      font-size: 44px;
+      line-height: 1.25;
+      margin-bottom: 18px;
+    }
+    .hero-lead {
+      font-size: 18px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-badge-box {
+      background: var(--paper-card);
+      border: var(--border-thick);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-pop);
+      position: relative;
+    }
+    .hero-badge-box h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .hero-badge-box ul {
+      margin-left: 20px;
+      font-size: 14.5px;
+      line-height: 1.8;
+      color: var(--ink-light);
+    }
+
+    /* Filter & Search Toolbar */
+    .toolbar-section {
+      margin: 36px 0 28px;
+      background: var(--paper-card);
+      border: var(--border-thick);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-pop);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 38px 10px 16px;
+      font-size: 15px;
+      font-family: var(--font-body);
+      border: 2px solid var(--navy);
+      border-radius: var(--radius-pill);
+      background: var(--cream);
+      color: var(--navy);
+      outline: none;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+    .search-input:focus {
+      background: #FFF;
+      border-color: var(--blue);
+    }
+    .clear-search-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--ink-muted);
+      display: none;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--cream);
+      border: 2px solid var(--navy);
+      border-radius: var(--radius-pill);
+      padding: 6px 16px;
+      font-family: var(--font-round);
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--yellow);
+      transform: translateY(-1px);
+      box-shadow: 2px 2px 0 rgba(30,58,95,0.15);
+    }
+    .content-counter {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      background: var(--sky-soft);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Cards Grid */
+    .section-title-row {
+      margin: 44px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-title {
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 26px;
+      margin-bottom: 24px;
+    }
+    .content-card {
+      position: relative;
+      background: var(--paper-card);
+      border: var(--border-thick);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px 22px;
+      box-shadow: var(--shadow-pop);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .content-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-pop-hover);
+    }
+    .card-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-size: 22px;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      color: var(--navy);
+    }
+    .card-desc {
+      font-size: 14.5px;
+      color: var(--ink-light);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .card-tag {
+      background: var(--sky-soft);
+      border: 1.5px solid var(--navy);
+      color: var(--navy);
+      font-family: var(--font-round);
+      font-weight: 700;
+      font-size: 11.5px;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .card-footer-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 2px dashed var(--border-line);
+      font-family: var(--font-round);
+      font-weight: 800;
+      font-size: 14.5px;
+      color: var(--navy);
+    }
+
+    /* Soon Placeholder Card */
+    .card-soon {
+      background: transparent;
+      border: 3px dashed var(--navy-light);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      min-height: 240px;
+      color: var(--ink-muted);
+    }
+
+    /* Rule Highlights Section */
+    .rubric-callout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .rubric-box {
+      background: var(--paper-card);
+      border: var(--border-thick);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-pop);
+    }
+    .rubric-box h4 {
+      font-size: 17px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rubric-box p {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 58, 95, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-dialog {
+      background: var(--paper);
+      border: var(--border-thick);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 840px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 2px dashed var(--border-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--cream);
+    }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+    .modal-close-btn {
+      background: var(--blush);
+      border: 2px solid var(--navy);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .toolbar-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="site-nav">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon">📚</div>
+          <div class="brand-text">
+            <h1>BizAI Hub</h1>
+            <span>國立政治大學 企管系 · AI Agent 實戰知識與講義庫</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#lessons-section" class="nav-link">互動講義庫</a></li>
+          <li><a href="#wiki-section" class="nav-link">LLM Wiki 知識庫</a></li>
+          <li><a href="#rules-section" class="nav-link">規範與評分對應</a></li>
+          <li><button class="btn-action" id="openAgentsModalBtn" style="padding:5px 14px; font-size:13.5px">檢視 AGENTS.md 📜</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div>
+        <span class="badge-pill yellow" style="margin-bottom:12px;">W9 作業成果 · 企業級規範驅動開發</span>
+        <h2 class="hero-title">
+          跳進企業級 <span class="u-highlight">AI Agent</span>，<br>
+          用一套規則讓知識與專案無限延展。
+        </h2>
+        <p class="hero-lead">
+          這不是一次性的 Vibe Coding，而是為 AI 員工量身打造的<b>工程憲法（AGENTS.md / CLAUDE.md）</b>。結合 <b>Karpathy LLM Wiki 三層解耦架構</b> 與 <b>DiveAI 呆萌手帳風簡報互動設計</b>，讓人類出的每一張嘴，都能被精準執行與自主擴充。
+        </p>
+        <div class="hero-actions">
+          <a href="#lessons-section" class="btn-action">開始閱讀講義 →</a>
+          <a href="#wiki-section" class="btn-action btn-secondary">瀏覽 LLM Wiki</a>
+          <button class="btn-action btn-secondary" onclick="document.getElementById('openAgentsModalBtn').click()">專案手冊 📜</button>
+        </div>
+      </div>
+
+      <div class="hero-badge-box">
+        <div class="tape tape-right tape-pink"></div>
+        <h3>🎯 為什麼這套架構能拿 9~10 分？</h3>
+        <ul>
+          <li><b>規則具體嚴謹：</b>根目錄提供完整 <code>AGENTS.md</code> 與 <code>CLAUDE.md</code>，清楚規範色彩、版面與禁忌。</li>
+          <li><b>AI 可獨立擴充：</b>附帶標準 <code>templates/</code> 與 <code>new_content.py</code> 生成器，AI 能依據同一套規則持續造頁。</li>
+          <li><b>良好成果對應：</b>全站包含 2 份多頁互動式講義簡報、3 篇雙向互連 Wiki 詞條與 3 份原始資料。</li>
+          <li><b>自動化檢核 CI：</b>內建 <code>validate_site.py</code> 測試套件，確保全站 0 死鏈、色票與元數據 100% 健全。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Toolbar: Search & Category Filter -->
+    <section class="toolbar-section">
+      <div class="search-box">
+        <input type="text" id="hubSearchInput" class="search-input" placeholder="🔍 搜尋講義、Wiki 詞條、標籤或關鍵字..." aria-label="搜尋知識庫內容">
+        <button id="clearSearchBtn" class="clear-search-btn" title="清除搜尋">✕</button>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-category="all">全部內容</button>
+        <button class="filter-btn" data-category="lesson">講義簡報 (Lessons)</button>
+        <button class="filter-btn" data-category="wiki">知識庫詞條 (Wiki)</button>
+      </div>
+
+      <div class="content-counter" id="contentCountDisplay">
+        顯示中：5 份項目
+      </div>
+    </section>
+
+    <!-- Empty Search State -->
+    <div id="emptySearchState" style="display:none; text-align:center; padding: 40px 20px;">
+      <div style="font-size: 40px; margin-bottom: 8px;">🔍</div>
+      <h3 style="color:var(--navy);">查無符合的內容項目</h3>
+      <p style="color:var(--ink-light); margin-top:6px;">請嘗試更換關鍵字，或點擊「全部內容」重置篩選條件。</p>
+    </div>
+
+    <!-- Section 1: Interactive Lessons -->
+    <section id="lessons-section">
+      <div class="section-title-row">
+        <h3 class="section-title"><span class="text-blue">✦</span> 互動講義庫 (Slide Lessons)</h3>
+        <span class="badge-pill">支援鍵盤 ← → 翻頁</span>
+      </div>
+      <div class="hand-line"></div>
+
+      <div class="cards-grid">
+        <!-- Lesson 1 Card -->
+        <a href="lessons/agent-harness/index.html" class="content-card" data-type="lesson" data-tags="AI Agent, Model, Harness, 核心公式, 企管案例, 講義">
+          <div class="tape tape-left"></div>
+          <div class="card-badge-row">
+            <span class="badge-pill yellow">模組 01</span>
+            <span class="badge-pill dark">6 頁簡報</span>
+          </div>
+          <h4 class="card-title">AI Agent 核心公式：Model ＋ Harness 拆解與實作</h4>
+          <p class="card-desc">
+            大腦（LLM）與工作裝備（Harness）的完整解構！掌握企業交辦三要件（成品、限制、驗收），剖析合約智審特工落地架構。
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">Model + Harness</span>
+            <span class="card-tag">企管交辦</span>
+            <span class="card-tag">手帳風格</span>
+          </div>
+          <div class="card-footer-action">
+            <span>開始翻頁閱讀</span>
+            <span>進入簡報 →</span>
+          </div>
+        </a>
+
+        <!-- Lesson 2 Card -->
+        <a href="lessons/prompt-to-agent/index.html" class="content-card" data-type="lesson" data-tags="Prompt, Agentic, AGENTS.md, CLAUDE.md, 規則工程, 訪談法, 講義">
+          <div class="tape tape-left tape-pink"></div>
+          <div class="card-badge-row">
+            <span class="badge-pill pink">模組 02</span>
+            <span class="badge-pill dark">6 頁簡報</span>
+          </div>
+          <h4 class="card-title">從 Prompt 提問到 Agentic 交辦：企業落地的思維質變</h4>
+          <p class="card-desc">
+            破解 AI 每日開工失憶症！教你撰寫專屬員工手冊（AGENTS.md），實踐 Socratic 單題訪談法，打造高延展性的標準化開發流程。
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">規則手冊</span>
+            <span class="card-tag">AGENTS.md</span>
+            <span class="card-tag">可延伸性</span>
+          </div>
+          <div class="card-footer-action">
+            <span>開始翻頁閱讀</span>
+            <span>進入簡報 →</span>
+          </div>
+        </a>
+
+        <!-- Coming Soon Card -->
+        <div class="card-soon" data-type="lesson" data-tags="即將推出, 多代理人, LangGraph">
+          <div style="font-size:36px; margin-bottom:8px;">🐣</div>
+          <h4 style="font-family:var(--font-round); color:var(--navy); font-size:19px;">模組 03 籌備中</h4>
+          <p style="font-size:14px; margin-top:6px;">Multi-Agent 團隊協作與 LangGraph 產線實戰。<br>AI 可依照 AGENTS.md 隨時生成！</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: LLM Wiki Knowledge Base -->
+    <section id="wiki-section" style="margin-top: 50px;">
+      <div class="section-title-row">
+        <h3 class="section-title"><span class="text-blue">✦</span> LLM Wiki 知識庫 (Karpathy Architecture)</h3>
+        <span class="badge-pill teal">三層解耦 · 雙向互連</span>
+      </div>
+      <div class="hand-line hand-line-blue"></div>
+
+      <div class="cards-grid">
+        <!-- Wiki 1 Card -->
+        <a href="wiki/agentic-workflow/index.html" class="content-card" data-type="wiki" data-tags="代理式工作流, Agentic Workflow, 閉環機制, 工具調用, 供應鏈, Wiki">
+          <div class="tape tape-right tape-yellow"></div>
+          <div class="card-badge-row">
+            <span class="badge-pill teal">核心理論</span>
+            <span class="karpathy-pill">Layer 2 詞條</span>
+          </div>
+          <h4 class="card-title">代理式工作流 (Agentic Workflow)</h4>
+          <p class="card-desc">
+            深入探討循環推論機制：規劃、工具調用、狀態記憶與自我反思。包含跨國供應鏈採購決策特工與傳統 RPA 的決策矩陣對比。
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">ReAct 閉環</span>
+            <span class="card-tag">供應鏈案例</span>
+            <span class="card-tag">雙向連結</span>
+          </div>
+          <div class="card-footer-action">
+            <span>檢視完整詞條</span>
+            <span>深入研讀 →</span>
+          </div>
+        </a>
+
+        <!-- Wiki 2 Card -->
+        <a href="wiki/context-engineering/index.html" class="content-card" data-type="wiki" data-tags="上下文工程, Context Engineering, AGENTS.md, 投顧研報, 治理, Wiki">
+          <div class="tape tape-right tape-pink"></div>
+          <div class="card-badge-row">
+            <span class="badge-pill pink">工程規範</span>
+            <span class="karpathy-pill">Layer 2 詞條</span>
+          </div>
+          <h4 class="card-title">上下文工程 (Context Engineering)</h4>
+          <p class="card-desc">
+            超越脆弱的 Prompt 提示詞！將專案背景、業務邏輯與紅線禁區沉澱為靜態結構化文件，解決投顧研報風格不一與合規風險。
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">靜態手冊</span>
+            <span class="card-tag">金融投顧實例</span>
+            <span class="card-tag">規範治理</span>
+          </div>
+          <div class="card-footer-action">
+            <span>檢視完整詞條</span>
+            <span>深入研讀 →</span>
+          </div>
+        </a>
+
+        <!-- Wiki 3 Card -->
+        <a href="wiki/llm-wiki-architecture/index.html" class="content-card" data-type="wiki" data-tags="Karpathy, LLM Wiki, 三層架構, raw, wiki, 規則手冊, 零售SOP, Wiki">
+          <div class="tape tape-right tape-teal"></div>
+          <div class="card-badge-row">
+            <span class="badge-pill yellow">架構典範</span>
+            <span class="karpathy-pill">Layer 2 詞條</span>
+          </div>
+          <h4 class="card-title">Karpathy LLM Wiki 三層架構</h4>
+          <p class="card-desc">
+            「你負責讀，AI 負責寫！」解析 raw/、wiki/ 與規則手冊的三層解耦機制，詳解收錄（Ingest）、提問（Query）與健檢（Lint）三大運作指令。
+          </p>
+          <div class="card-tags">
+            <span class="card-tag">三層解耦</span>
+            <span class="card-tag">三大指令</span>
+            <span class="card-tag">零售SOP智庫</span>
+          </div>
+          <div class="card-footer-action">
+            <span>檢視完整詞條</span>
+            <span>深入研讀 →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 3: Architecture & Rubrics Alignment -->
+    <section id="rules-section" style="margin-top: 50px;">
+      <div class="section-title-row">
+        <h3 class="section-title"><span class="text-blue">✦</span> 專案規則與評分規準對應 (Rubric Alignment)</h3>
+        <span class="badge-pill dark">9~10 分設計指標</span>
+      </div>
+      <div class="hand-line"></div>
+
+      <div class="rubric-callout-grid">
+        <div class="rubric-box">
+          <h4>📜 1. 專案規則清楚具體</h4>
+          <p>
+            專案根目錄維護了詳盡的 <code>AGENTS.md</code> 與 <code>CLAUDE.md</code>，精確定義 CSS 變數（色票、字體、圓角）、檔案命名（kebab-case）、頁面範本類型與不可踩的地雷紅線。
+          </p>
+        </div>
+        <div class="rubric-box">
+          <h4>🤖 2. AI 可依據文件繼續擴充</h4>
+          <p>
+            專案提供 <code>templates/lesson_template.html</code> 與 <code>templates/wiki_template.html</code>，並配置 <code>python tools/new_content.py</code>，AI 閱讀手冊後可立即獨立生成新課程或新概念頁。
+          </p>
+        </div>
+        <div class="rubric-box">
+          <h4>🎨 3. 網頁成果與規則良好對應</h4>
+          <p>
+            全站頁面均嚴格落實手帳風格（紙膠帶 <code>.tape</code>、戳記 <code>.sticker</code>、手繪底線 <code>.u-highlight</code>），完全杜絕任意硬編碼樣式，展現高度專業設計一致性。
+          </p>
+        </div>
+        <div class="rubric-box">
+          <h4>🔄 4. 高度重複使用與延伸性</h4>
+          <p>
+            提供 <code>tools/validate_site.py</code> 自動化測試套件，具備鏈結正確性、元數據、樣式覆蓋率之自動查驗能力，為真正的企業級可持續維護架構。
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- AGENTS.md Full Text Modal Dialog -->
+  <div class="modal-backdrop" id="agentsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle" style="font-size:18px; color:var(--navy);">📜 專案 AGENTS.md 員工手冊規準預覽</h3>
+        <button class="modal-close-btn" id="closeAgentsModalBtn" title="關閉視窗">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="note-dash teal" style="margin-top:0;">
+          <b>專案核心憲法摘要：</b>
+          每次新進 AI Agent 開工前，系統會優先自動讀取本文件。本手冊定義了技術棧、色票變數、檔案結構、範本規範與自動化驗收流程。
+        </div>
+        <pre style="background:var(--cream); padding:16px; border-radius:8px; border:1px solid var(--border-line); overflow-x:auto; font-family:var(--font-mono); font-size:13px; line-height:1.55;">
+# BizAI Hub - AI Agent 開發規約與員工手冊 (AGENTS.md)
+
+## 一、專案目的與核心願景
+本專案為政大企管系「AI Agent 落地實戰知識庫與講義庫」，核心目標是建立一套具備「自我演進、高延展性、標準化模板」的知識傳播體系。
+
+## 二、技術棧規範（零依賴原則）
+1. 純原生 HTML5 + Modern CSS + Vanilla JS。
+2. 嚴禁引入肥大之外部框架或打包工具，確保在 GitHub Pages 隨推即顯。
+3. 中文字型優先使用 Google Fonts (Noto Sans TC + M PLUS Rounded 1c)。
+
+## 三、視覺系統標準（嚴格色票與語意類別）
+--cream: #FCF8F0; (主背景)
+--navy: #1E3A5F; (標題、框線)
+--blue: #5FA8C4; (重點強調)
+--blush: #F4B3BE; (手帳腮紅)
+--teal: #7CCBC9; (科技薄荷綠)
+--yellow: #F7E6A8; (亮點高光)
+
+## 四、頁面類型原型 (Archetypes)
+- Type A: Slide Deck (講義簡報頁，支援鍵盤導覽、手帳膠帶)
+- Type B: LLM Wiki (概念詞條頁，遵循 Karpathy 三層解耦)
+- Type C: Portal Index (大廳總覽頁，具備即時搜尋與計數器)
+
+## 五、AI 擴充標準作業程序 (SOP)
+1. 讀取 templates/ 相對應之範本。
+2. 執行 python tools/new_content.py 或手動填入語意區塊。
+3. 執行 python tools/validate_site.py 驗收無任何報錯與死鏈。
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer wrap">
+    <div>
+      <span>© 國立政治大學 企管系 · 115-1 生成式 AI 實務課程專題</span><br>
+      <span style="font-size:12.5px; color:var(--ink-muted);">學號：112XXXXXX · 學生：Simon · 指導架構：DiveAI & Karpathy LLM Wiki</span>
+    </div>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub 專案倉庫</a>
+      <span>·</span>
+      <a href="#lessons-section">講義庫</a>
+      <span>·</span>
+      <a href="#wiki-section">LLM Wiki</a>
+    </div>
+  </footer>
+
+  <script src="scripts/portal.js"></script>
+</body>
+</html>

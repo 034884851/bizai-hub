@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>上下文工程 (Context Engineering) | BizAI Hub 知識庫</title>
+  <meta name="description" content="超越提示詞工程（Prompt Engineering）：探索以 AGENTS.md 為核心的上下文工程架構與企業級標準治理。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/wiki.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <nav class="site-nav">
+        <a href="../../index.html" class="brand-logo">
+          <div class="brand-icon">📚</div>
+          <div class="brand-text">
+            <h1>BizAI Hub</h1>
+            <span>企管 AI Agent 知識與講義庫</span>
+          </div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../../index.html" class="nav-link">回總覽首頁</a></li>
+          <li><a href="../../index.html#lessons-section" class="nav-link">講義庫</a></li>
+          <li><a href="../../index.html#wiki-section" class="nav-link active">LLM Wiki</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="wiki-layout">
+      <!-- Sidebar TOC -->
+      <aside class="wiki-sidebar">
+        <div class="wiki-sidebar-title">📑 本頁目錄</div>
+        <ul class="toc-list" id="tocList">
+          <!-- Dynamically populated by scripts/wiki.js -->
+        </ul>
+        <div class="wiki-sidebar-meta">
+          <span>🏷️ 類別：架構設計</span>
+          <span>📅 最後更新：2026-11-03</span>
+          <span>✍️ 維護者：BizAI Wiki AI Agent</span>
+        </div>
+      </aside>
+
+      <!-- Main Article -->
+      <article class="wiki-article">
+        <div class="tape tape-right tape-pink"></div>
+        
+        <nav class="wiki-breadcrumbs" aria-label="麵包屑導覽">
+          <a href="../../index.html">首頁</a>
+          <span>›</span>
+          <a href="../../index.html#wiki-section">LLM Wiki 知識庫</a>
+          <span>›</span>
+          <span>上下文工程 (Context Engineering)</span>
+        </nav>
+
+        <header class="wiki-header">
+          <div class="wiki-meta-row">
+            <span class="badge-pill pink">工程規範</span>
+            <span class="karpathy-pill">Karpathy Layer 2 · 知識詞條</span>
+          </div>
+          <h1 class="wiki-title">上下文工程 (Context Engineering)</h1>
+          <div class="wiki-lead-summary">
+            上下文工程（Context Engineering）是軟體與 AI 系統工程的新典範。它有別於僅對單一問答進行文字雕琢的提示詞工程（Prompt Engineering），更著眼於設計、管理與最佳化大型語言模型在每一次運作中所接觸到的「全域資訊生態圈」，包括規則手冊、檔案索引、限制邊界與工具規格。
+          </div>
+        </header>
+
+        <div class="wiki-body">
+          <h2 id="concept-overview"><span class="heading-marker">✦</span> 概念定義與本質拆解</h2>
+          <p>
+            在 2023 年至 2024 年初，業界普遍著迷於「神級 Prompt」，透過在提問框中塞入長篇角色扮演指令或修辭技巧來改善產出。然而，當專案規模擴大至多個頁面、複雜資料庫或跨人協作時，Prompt Engineering 暴露出以下致命瓶頸：
+          </p>
+          <ul>
+            <li><b>脆弱易碎（Fragility）：</b>稍改動一個字，模型的推論行為便發生不可預測的漂移。</li>
+            <li><b>無法繼承（Amnesia）：</b>每個新對話視窗都是失憶的空白狀態，人類被迫複製貼上大量背景。</li>
+            <li><b>資訊雜訊比過高（Noise）：</b>過長的 Prompt 導致模型「中間失憶（Lost in the Middle）」，忽略核心邊界指令。</li>
+          </ul>
+          <p>
+            <b>上下文工程的核心主張：</b>將「規則」從脆弱的對話框抽離，沉澱為專案資料庫中的<b>靜態結構化文件</b>（如 <code>AGENTS.md</code> 或 <code>CLAUDE.md</code>）。模型每次執行任務時，由 Harness 自動掛載最小且最精確的上下文子集。
+          </p>
+
+          <h2 id="business-scenario"><span class="heading-marker">✦</span> 企業商管應用情境</h2>
+          <div class="biz-case-box">
+            <span class="biz-badge">🏢 企管落地實例：證券投資研究報告的格式一致性治理</span>
+            <h4>消除人為風格偏誤與法遵風險</h4>
+            <p>
+              某投資信託顧問公司擁有 20 名分析師，每日使用 AI 協同產出產業投資週報。在早期階段，各分析師各自輸入自己的 Prompt，導致產出的財務預測表格欄位各異、免責聲明字串殘缺不全。
+              <br><br>
+              導入上下文工程治理後：
+              <br>
+              1. <b>統一建立 <code>AGENTS.md</code>：</b>明訂財務報表格式、色票配色（如上漲紅／下跌綠）、數字一律四捨五入至小數點第二位。<br>
+              2. <b>合規免責宣告硬約束：</b>任何研報產出時，自動注入法規宣告區塊，AI 不得擅自刪改。<br>
+              3. <b>成效：</b>投研報告校對時間減少 70%，且全面杜絕了違反金管會格式規範的合規事件。
+            </p>
+          </div>
+
+          <h2 id="comparison-analysis"><span class="heading-marker">✦</span> 方案對比與決策矩陣</h2>
+          
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>指標面向</th>
+                <th>提示詞工程 (Prompt Engineering)</th>
+                <th>上下文工程 (Context Engineering)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>存放載體</td>
+                <td>人類的剪貼簿、臨時對話框</td>
+                <td>版本控制的 Git 儲存庫（<code>AGENTS.md</code>）</td>
+              </tr>
+              <tr>
+                <td>重複使用性</td>
+                <td>極低，隨 Session 關閉而消逝</td>
+                <td>極高，任何開發者與 AI 代理均自動共享</td>
+              </tr>
+              <tr>
+                <td>治理與稽核</td>
+                <td>無法管控團隊成員各自怎麼問</td>
+                <td>可透過 PR、Commit 與自動化 Test Site 稽核</td>
+              </tr>
+              <tr>
+                <td>適用階段</td>
+                <td>初階探索、靈感發想</td>
+                <td>企業級系統落地、自動化批量生產</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 id="cross-references"><span class="heading-marker">✦</span> 延伸知識與雙向連結</h2>
+          <ul>
+            <li>關聯詞條：<a href="../agentic-workflow/index.html" class="wiki-link">代理式工作流 (Agentic Workflow)</a></li>
+            <li>關聯詞條：<a href="../llm-wiki-architecture/index.html" class="wiki-link">Karpathy LLM Wiki 三層架構</a></li>
+            <li>關聯講義：<a href="../../lessons/prompt-to-agent/index.html" class="wiki-link">從 Prompt 提問到 Agentic 交辦</a></li>
+          </ul>
+        </div>
+
+        <!-- Raw source mapping footer -->
+        <footer class="wiki-raw-source">
+          <div class="raw-info">
+            <span>📥 本詞條依據原始資料庫自動收錄維護：</span>
+            <code>raw/02_context_design.md</code>
+          </div>
+          <a href="../../index.html#wiki-section" class="btn-action btn-secondary" style="padding:4px 14px; font-size:13px">返回詞條目錄</a>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer wrap">
+    <span>© 國立政治大學 企管系 · BizAI Hub 知識庫專案</span>
+    <span>Powered by AGENTS.md Standard & GitHub Pages 🚀</span>
+  </footer>
+
+  <script src="../../scripts/wiki.js"></script>
+</body>
+</html>

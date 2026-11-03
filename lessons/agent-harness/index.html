@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Agent 核心公式：Model ＋ Harness 拆解與實作 | BizAI Hub 講義庫</title>
+  <meta name="description" content="從 Chat 轉向 Agentic Work：理解大腦（LLM）與工作裝備（Harness）的完美分工，掌握企業級交辦三要件。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/slide.css">
+</head>
+<body>
+
+  <main class="slide-viewport">
+    <!-- Top Bar -->
+    <header class="slide-topbar">
+      <a href="../../index.html" class="slide-backlink">← 回到 BizAI Hub 首頁</a>
+      <div style="display:flex; gap:8px;">
+        <span class="badge-pill">第一單元</span>
+        <span class="badge-pill yellow">商管實戰</span>
+      </div>
+    </header>
+
+    <!-- Slide Deck Stage -->
+    <div class="deck-stage">
+      <div class="deck-container">
+
+        <!-- Slide 01: 封面 -->
+        <section class="slide active" id="slide-1" aria-label="第 1 頁：封面">
+          <div class="tape tape-left"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">模組 01 · 觀念奠基</span>
+            <h1 class="slide-title">AI Agent 核心公式：<br><span class="u-highlight">Model ＋ Harness</span> 拆解與實作</h1>
+            <div class="hand-line"></div>
+            <p class="slide-lead">
+              從「AI 出一張嘴」到「你出一張嘴」！搞懂模型的大腦思考機制，結合環境、工具與規則手冊，讓 AI 成為為你產出成品的專屬員工。
+            </p>
+            <div class="slide-oneline">
+              👉 請按鍵盤 <kbd class="u-highlight">→</kbd>、<kbd class="u-highlight">空白鍵</kbd> 或點擊下方按鈕開始翻頁
+            </div>
+            <div class="slide-pageno">01</div>
+          </div>
+        </section>
+
+        <!-- Slide 02: 從問 AI 到交辦給 AI -->
+        <section class="slide" id="slide-2" aria-label="第 2 頁：兩種用法的本質差異">
+          <div class="tape tape-right tape-pink"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">思維轉型</span>
+            <h2 class="slide-title"><span class="star">✦</span> 從「問 AI」到「交辦給 AI」</h2>
+            <div class="hand-line"></div>
+            <p class="slide-lead">這不是換一個軟體，而是你在工作現場與 AI 協作模式的<b class="text-navy">根本位移</b>：</p>
+            
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>評估維度</th>
+                  <th>對話式（Chat 模式）</th>
+                  <th>代理式（Agentic 模式）</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>你的角色定位</td>
+                  <td>發問者、操作員（人是 AI 的手腳）</td>
+                  <td>老闆、專案經理（你出一張嘴與驗收）</td>
+                </tr>
+                <tr>
+                  <td>協作過程</td>
+                  <td>一問一答，人類全程緊盯螢幕</td>
+                  <td>交辦後 AI 自主執行多步驟，人可離開</td>
+                </tr>
+                <tr>
+                  <td>觸及邊界</td>
+                  <td>僅限對話框內的靜態文字輸出</td>
+                  <td>讀寫本機檔案、執行終端機、串接 API</td>
+                </tr>
+                <tr>
+                  <td>最終產物</td>
+                  <td>一段供參考的回答</td>
+                  <td>一份驗收合格的實際成品（專案代碼、報表）</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="slide-oneline">
+              從今天起：你不是在向顧問請教，而是<b class="text-navy">交辦一件有驗收標準的具體任務</b>。
+            </div>
+            <div class="slide-pageno">02</div>
+          </div>
+        </section>
+
+        <!-- Slide 03: 課程核心公式 -->
+        <section class="slide" id="slide-3" aria-label="第 3 頁：核心公式拆解">
+          <div class="tape tape-left tape-yellow"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">架構核心</span>
+            <h2 class="slide-title"><span class="star">✦</span> 課程核心公式</h2>
+            <div class="hand-line"></div>
+
+            <div class="formula-box">
+              <span class="formula-chip agent">🤖 AI Agent</span>
+              <span class="formula-op">＝</span>
+              <span class="formula-chip model">🧠 AI Model (大腦)</span>
+              <span class="formula-op">＋</span>
+              <span class="formula-chip harness">🦺 Harness (工作裝備)</span>
+            </div>
+
+            <div class="slide-cards two-col">
+              <div class="slide-card">
+                <div class="sticker">腦</div>
+                <h3>AI Model（思考核心）</h3>
+                <p>大型語言模型本質上只做一件事：<b>預測下一個 Token</b>。它擅長規劃、理解語境、綜合歸納與代碼生成，但它本身「沒有手腳」，無法主動觸摸檔案系統。</p>
+              </div>
+              <div class="slide-card teal">
+                <div class="sticker">手</div>
+                <h3>Harness（行動裝備系統）</h3>
+                <p>負責落地的執行安全網：捕捉模型的工具呼叫，安全執行讀寫、執行測試命令，再將真實反饋送回大腦。<b>模型大家都差不多，決定好不好用的是 Harness！</b></p>
+              </div>
+            </div>
+
+            <div class="slide-oneline">
+              💡 打造 Agent 的本質：<b>教 AI 用你的標準與 SOP 做事</b>。
+            </div>
+            <div class="slide-pageno">03</div>
+          </div>
+        </section>
+
+        <!-- Slide 04: Harness 六大關鍵裝備 -->
+        <section class="slide" id="slide-4" aria-label="第 4 頁：六大關鍵裝備">
+          <div class="tape tape-right tape-teal"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">裝備清單</span>
+            <h2 class="slide-title"><span class="star">✦</span> 一個完整的 Harness 有什麼？</h2>
+            <div class="hand-line"></div>
+            
+            <div class="slide-cards" style="grid-template-columns: repeat(3, 1fr);">
+              <div class="slide-card">
+                <div class="sticker">1</div>
+                <h3>💻 工作空間 (Workspace)</h3>
+                <p>沙盒化獨立目錄，讓 Agent 讀寫專屬檔案與執行隔離程式。</p>
+              </div>
+              <div class="slide-card pink">
+                <div class="sticker">2</div>
+                <h3>🧰 執行工具 (Tools)</h3>
+                <p>檔案讀寫、Terminal 命令、網頁爬蟲與搜尋引擎。</p>
+              </div>
+              <div class="slide-card teal">
+                <div class="sticker">3</div>
+                <h3>🔌 連接器 (MCP)</h3>
+                <p>Model Context Protocol，掛載公司內部 ERP、SQL 或 Notion。</p>
+              </div>
+              <div class="slide-card yellow">
+                <div class="sticker">4</div>
+                <h3>📘 技能模組 (Skills)</h3>
+                <p>封裝專業領域的標準作業流程（SOP），即插即用。</p>
+              </div>
+              <div class="slide-card">
+                <div class="sticker">5</div>
+                <h3>📜 規則手冊 (Handbooks)</h3>
+                <p><b>AGENTS.md / CLAUDE.md</b>，開工必讀的原則底線與規範。</p>
+              </div>
+              <div class="slide-card pink">
+                <div class="sticker">6</div>
+                <h3>⏰ 自動排程 (Triggers)</h3>
+                <p>Cron 定時或事件 Webhook 驅動，達成無人值守自動化。</p>
+              </div>
+            </div>
+
+            <div class="slide-oneline">
+              📌 其中你唯一能 100% 掌握、影響力最大的，就是那份<b class="text-navy">規則手冊（AGENTS.md）</b>！
+            </div>
+            <div class="slide-pageno">04</div>
+          </div>
+        </section>
+
+        <!-- Slide 05: 老闆交辦三件事 -->
+        <section class="slide" id="slide-5" aria-label="第 5 頁：交辦三件事">
+          <div class="tape tape-left tape-pink"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">交辦基本功</span>
+            <h2 class="slide-title"><span class="star">✦</span> 好老闆交辦，講清楚三件事</h2>
+            <div class="hand-line"></div>
+
+            <div class="slide-cards" style="grid-template-columns: repeat(3, 1fr);">
+              <div class="slide-card yellow">
+                <div class="sticker">①</div>
+                <h3>明確的成品 (Deliverable)</h3>
+                <p>做完我會拿到什麼？存放在哪個檔案路徑？檔案結構與格式規範為何？</p>
+              </div>
+              <div class="slide-card pink">
+                <div class="sticker">②</div>
+                <h3>嚴格的限制 (Constraints)</h3>
+                <p>哪些可以動、哪些絕對不能刪？色彩變數是否鎖定？是否需使用全形標點？</p>
+              </div>
+              <div class="slide-card teal">
+                <div class="sticker">③</div>
+                <h3>驗收的規準 (Acceptance)</h3>
+                <p>如何證明你做完了？是否需提供執行計畫？代碼語法測試是否完全過關？</p>
+              </div>
+            </div>
+
+            <div class="slide-vs" style="margin-top: 14px;">
+              <div class="slide-vpanel bad">
+                <span class="vtitle">❌ 模糊交辦</span>
+                <p class="vsay">「幫我整理企管財務作業資料夾，越快越好。」（AI 只能盲猜，甚至誤刪重要資料）</p>
+              </div>
+              <div class="slide-vpanel good">
+                <span class="vtitle">✅ 代理人交辦</span>
+                <p class="vsay">「將 <code>raw/</code> 整理為結構化 HTML。保留原檔不可刪除，動手前先提大綱，做完運行測試確認 0 錯誤。」</p>
+              </div>
+            </div>
+
+            <div class="slide-pageno">05</div>
+          </div>
+        </section>
+
+        <!-- Slide 06: 商管落地實戰 -->
+        <section class="slide" id="slide-6" aria-label="第 6 頁：企管落地案例">
+          <div class="tape tape-right"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">企管落地</span>
+            <h2 class="slide-title"><span class="star">✦</span> 企業級應用範例：合約智審特工</h2>
+            <div class="hand-line"></div>
+            <p class="slide-lead">在企業管理現場，如何落實 Model ＋ Harness 的威力？</p>
+
+            <div class="slide-cards two-col">
+              <div class="slide-card">
+                <div class="sticker">SOP</div>
+                <h3>自動化合約審查閉環</h3>
+                <p><b>1. 讀取：</b>Agent 透過 File Tool 讀取供應商 PDF 條款草案。<br>
+                <b>2. 比對：</b>Model 對照公司採購法遵規則庫（Rules）。<br>
+                <b>3. 產出：</b>輸出紅字風險修訂版與談判建議書。</p>
+              </div>
+              <div class="slide-card teal">
+                <div class="sticker">ROI</div>
+                <h3>企業效益評估指標</h3>
+                <p>• 審約耗時由原本 4 小時縮減至 15 分鐘。<br>
+                • 藉由 <code>AGENTS.md</code> 統一審查嚴格度，消除法務人為疏漏。<br>
+                • 全程本地或私有雲端執行，保障商務機密安全。</p>
+              </div>
+            </div>
+
+            <div class="slide-oneline">
+              🎉 <b>恭喜完成第一單元！</b>您可以點擊下方回到首頁，或繼續前往 LLM Wiki 深入探討。
+            </div>
+            <div class="slide-pageno">06</div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Floating Navigation Bar -->
+    <nav class="slide-controls" aria-label="簡報切換導覽">
+      <button class="control-btn" id="prevSlideBtn" title="上一頁 (←)">‹ 上一頁</button>
+      <div class="slide-progress-track">
+        <div class="slide-progress-fill" id="slideProgressFill"></div>
+      </div>
+      <span class="control-counter" id="slideCounter">01 / 06</span>
+      <button class="control-btn primary" id="nextSlideBtn" title="下一頁 (→ / 空白鍵)">下一頁 ›</button>
+      <button class="control-btn" id="fullscreenBtn" title="全螢幕切換 (F)">⛶</button>
+    </nav>
+  </main>
+
+  <script src="../../scripts/slide.js"></script>
+</body>
+</html>

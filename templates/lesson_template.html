@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{LESSON_TITLE}} | BizAI Hub 講義庫</title>
+  <meta name="description" content="{{LESSON_DESCRIPTION}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles/base.css">
+  <link rel="stylesheet" href="../../styles/slide.css">
+</head>
+<body>
+
+  <main class="slide-viewport">
+    <!-- Top Navigation Bar -->
+    <header class="slide-topbar">
+      <a href="../../index.html" class="slide-backlink">← 回到 BizAI Hub 首頁</a>
+      <span class="badge-pill">{{CATEGORY}}</span>
+    </header>
+
+    <!-- Slide Deck Stage -->
+    <div class="deck-stage">
+      <div class="deck-container">
+
+        <!-- Slide 01: Cover (Required) -->
+        <section class="slide active" id="slide-1" aria-label="Slide 1">
+          <div class="tape tape-left"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">{{CATEGORY}} · 模組教學</span>
+            <h1 class="slide-title">{{LESSON_TITLE}}</h1>
+            <div class="hand-line"></div>
+            <p class="slide-lead">{{LESSON_DESCRIPTION}}</p>
+            <div class="slide-oneline">
+              👉 請使用鍵盤方向鍵 <kbd class="u-highlight">←</kbd> <kbd class="u-highlight">→</kbd> 或下方按鈕切換簡報
+            </div>
+            <div class="slide-pageno">01</div>
+          </div>
+        </section>
+
+        <!-- Slide 02: Core Content Template Example -->
+        <section class="slide" id="slide-2" aria-label="Slide 2">
+          <div class="tape tape-right tape-pink"></div>
+          <div class="slide-content-pad">
+            <span class="slide-category">核心概念</span>
+            <h2 class="slide-title"><span class="star">✦</span> {{SLIDE_2_TITLE}}</h2>
+            <div class="hand-line"></div>
+            <p class="slide-lead">{{SLIDE_2_LEAD}}</p>
+            
+            <div class="slide-cards two-col">
+              <div class="slide-card">
+                <div class="sticker">A</div>
+                <h3>重點面向一</h3>
+                <p>說明文字請依據 AGENTS.md 簡報規範撰寫，維持精煉易讀與清晰排版。</p>
+              </div>
+              <div class="slide-card teal">
+                <div class="sticker">B</div>
+                <h3>重點面向二</h3>
+                <p>結合商管企業實務情境，著重落地決策價值與執行方法。</p>
+              </div>
+            </div>
+
+            <div class="slide-oneline">💡 <b>核心總結：</b>此處放置該頁最關鍵的一句話洞察。</div>
+            <div class="slide-pageno">02</div>
+          </div>
+        </section>
+
+        <!-- Additional slides are appended here following the same structure -->
+
+      </div>
+    </div>
+
+    <!-- Floating Navigation Bar -->
+    <nav class="slide-controls" aria-label="簡報切換導覽">
+      <button class="control-btn" id="prevSlideBtn" title="上一頁 (←)">‹ 上一頁</button>
+      <div class="slide-progress-track">
+        <div class="slide-progress-fill" id="slideProgressFill"></div>
+      </div>
+      <span class="control-counter" id="slideCounter">01 / 02</span>
+      <button class="control-btn primary" id="nextSlideBtn" title="下一頁 (→ / 空白鍵)">下一頁 ›</button>
+      <button class="control-btn" id="fullscreenBtn" title="全螢幕切換 (F)">⛶</button>
+    </nav>
+  </main>
+
+  <script src="../../scripts/slide.js"></script>
+</body>
+</html>
