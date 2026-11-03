@@ -99,6 +99,23 @@
             </p>
           </div>
 
+          <h3 id="context-config-example"><span class="heading-marker">✦</span> 上下文工程範例：AGENTS.md 硬約束設定檔</h3>
+          <p>以下為企業投研特工在系統層面掛載之具體上下文工程規則碼（點擊右上方按鈕可快速複製）：</p>
+          <pre><code class="language-markdown"># Financial Report Agent Directives (AGENTS.md)
+
+## 1. 角色定位與權責
+- 角色：資深證券研究助理（Senior Equity Analyst Agent）。
+- 產出目標：每日晨會前產出「科技產業投資速報」。
+
+## 2. 數值與格式硬約束（嚴禁偏離）
+- 目標價（Target Price）與 EPS 預測一律四捨五入至小數點後兩位。
+- 走勢圖色票：上漲固定使用 #E74C3C（暖紅），下跌固定使用 #27AE60（翠綠）。
+- 必備區塊：每篇結尾必須自動附加《金管會證期局法定投資免責聲明》。
+
+## 3. 驗證與阻斷機制
+- 交付前必須呼叫驗證腳本：`python tools/validate_report.py --input report.md`
+- 凡任一欄位缺失即中斷流程，不准向外分發。</code></pre>
+
           <h2 id="comparison-analysis"><span class="heading-marker">✦</span> 方案對比與決策矩陣</h2>
           
           <table class="data-table">

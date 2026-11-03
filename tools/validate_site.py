@@ -88,13 +88,28 @@ def test_internal_links_and_assets():
             hash_part = parts[1] if len(parts) > 1 else None
 
             if not file_part and hash_part:
+                # Same-page anchor verification
+                id_pat = re.compile(rf'id=["\']{re.escape(hash_part)}["\']', re.IGNORECASE)
+                if id_pat.search(content):
+                    log_pass(f"[{rel_html}] -> Valid in-page anchor: #{hash_part}")
+                else:
+                    log_error(f"[{rel_html}] -> Broken in-page anchor: #{hash_part}")
                 continue
 
             target_dir = os.path.dirname(html_file)
             resolved_target = os.path.abspath(os.path.join(target_dir, file_part))
 
             if os.path.exists(resolved_target):
-                log_pass(f"[{rel_html}] -> Valid link: {target}")
+                if hash_part and resolved_target.endswith(".html"):
+                    with open(resolved_target, "r", encoding="utf-8") as tf:
+                        target_content = tf.read()
+                    id_pat = re.compile(rf'id=["\']{re.escape(hash_part)}["\']', re.IGNORECASE)
+                    if id_pat.search(target_content):
+                        log_pass(f"[{rel_html}] -> Valid link with anchor: {target}")
+                    else:
+                        log_error(f"[{rel_html}] -> Broken anchor in target: #{hash_part} not found in {resolved_target}")
+                else:
+                    log_pass(f"[{rel_html}] -> Valid link: {target}")
             else:
                 log_error(f"[{rel_html}] -> Broken link (404 Not Found): {target} (Resolved: {resolved_target})")
 
@@ -198,6 +213,61 @@ def test_handbook_completeness():
         if all_found:
             log_pass(f"[{handbook_name}] contains all required sections and guidelines")
 
+def test_scaffolding_and_extension_pipeline():
+    print("\n--- 6. Testing AI Scaffolding Generator Pipeline (tools/new_content.py) ---")
+    import subprocess
+    import shutil
+
+    test_lesson_id = "test-ci-lesson"
+    test_wiki_id = "test-ci-wiki"
+
+    # 1. Test lesson scaffolding
+    lesson_cmd = [
+        sys.executable,
+        os.path.join(ROOT_DIR, "tools", "new_content.py"),
+        "lesson",
+        "--id", test_lesson_id,
+        "--title", "CI 測試講義",
+        "--desc", "這是 CI 自動化測試驗證之簡報。"
+    ]
+    lesson_res = subprocess.run(lesson_cmd, capture_output=True, text=True, cwd=ROOT_DIR)
+    if lesson_res.returncode == 0:
+        log_pass("tools/new_content.py lesson scaffolding generated successfully")
+    else:
+        log_error(f"tools/new_content.py lesson generation failed: {lesson_res.stderr}")
+
+    # 2. Test wiki scaffolding & automatic Karpathy raw stub creation
+    wiki_cmd = [
+        sys.executable,
+        os.path.join(ROOT_DIR, "tools", "new_content.py"),
+        "wiki",
+        "--id", test_wiki_id,
+        "--title", "CI 測試詞條",
+        "--desc", "這是 CI 自動化測試驗證之詞條。"
+    ]
+    wiki_res = subprocess.run(wiki_cmd, capture_output=True, text=True, cwd=ROOT_DIR)
+    if wiki_res.returncode == 0:
+        log_pass("tools/new_content.py wiki scaffolding & Karpathy raw stub generated successfully")
+    else:
+        log_error(f"tools/new_content.py wiki generation failed: {wiki_res.stderr}")
+
+    raw_stub_path = os.path.join(ROOT_DIR, "raw", f"{test_wiki_id}.md")
+    if os.path.exists(raw_stub_path) and os.path.getsize(raw_stub_path) > 0:
+        log_pass(f"Karpathy Layer 1 ground truth auto-provisioned: raw/{test_wiki_id}.md")
+    else:
+        log_error(f"Karpathy Layer 1 raw stub missing for {test_wiki_id}")
+
+    # 3. Cleanup temporary test artifacts
+    lesson_dir = os.path.join(ROOT_DIR, "lessons", test_lesson_id)
+    wiki_dir = os.path.join(ROOT_DIR, "wiki", test_wiki_id)
+    if os.path.exists(lesson_dir):
+        shutil.rmtree(lesson_dir, ignore_errors=True)
+    if os.path.exists(wiki_dir):
+        shutil.rmtree(wiki_dir, ignore_errors=True)
+    if os.path.exists(raw_stub_path):
+        os.remove(raw_stub_path)
+    log_pass("CI temporary test artifacts cleaned up cleanly")
+
 def main():
     print("=" * 60)
     print("  BizAI Hub - Automated Test & CI Verification Suite")
@@ -208,6 +278,7 @@ def main():
     test_slide_lessons_compliance()
     test_wiki_entries_and_karpathy_ground_truth()
     test_handbook_completeness()
+    test_scaffolding_and_extension_pipeline()
 
     print("\n" + "=" * 60)
     print(f"  Test Results: {passed_checks} Passed | {len(warnings)} Warnings | {len(errors)} Errors")

@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const counterDisplay = document.getElementById('contentCountDisplay');
   const emptyState = document.getElementById('emptySearchState');
 
+  const lessonsSection = document.getElementById('lessons-section');
+  const wikiSection = document.getElementById('wiki-section');
+  const soonCards = document.querySelectorAll('.card-soon');
+
   let activeCategory = 'all';
   let searchQuery = '';
 
@@ -18,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let visibleCount = 0;
     const query = searchQuery.trim().toLowerCase();
 
+    // 1. Filter standard content cards
     contentCards.forEach(card => {
       const type = card.dataset.type; // 'lesson' or 'wiki'
       const title = (card.querySelector('.card-title')?.textContent || '').toLowerCase();
@@ -34,6 +39,34 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.display = 'none';
       }
     });
+
+    // 2. Filter soon / preview cards
+    soonCards.forEach(card => {
+      const type = card.dataset.type || 'lesson';
+      const text = (card.textContent || '').toLowerCase();
+      const tags = (card.dataset.tags || '').toLowerCase();
+
+      const matchesCategory = (activeCategory === 'all') || (type === activeCategory);
+      const matchesSearch = !query || text.includes(query) || tags.includes(query);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // 3. Cleanly manage Section visibility (hide empty section headers)
+    if (lessonsSection) {
+      const lessonItems = lessonsSection.querySelectorAll('.content-card, .card-soon');
+      const hasVisibleLesson = Array.from(lessonItems).some(c => c.style.display !== 'none');
+      lessonsSection.style.display = hasVisibleLesson ? '' : 'none';
+    }
+    if (wikiSection) {
+      const wikiItems = wikiSection.querySelectorAll('.content-card');
+      const hasVisibleWiki = Array.from(wikiItems).some(c => c.style.display !== 'none');
+      wikiSection.style.display = hasVisibleWiki ? '' : 'none';
+    }
 
     if (counterDisplay) {
       counterDisplay.textContent = `顯示中：${visibleCount} 份項目`;
@@ -100,6 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modal) {
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
       }

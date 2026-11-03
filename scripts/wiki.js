@@ -68,13 +68,36 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.style.borderRadius = '4px';
     copyBtn.style.cursor = 'pointer';
 
+    function fallbackCopyText(text, btn) {
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = '已複製！';
+        setTimeout(() => { btn.textContent = '複製'; }, 2000);
+      } catch (err) {
+        btn.textContent = '複製失敗';
+        setTimeout(() => { btn.textContent = '複製'; }, 2000);
+      }
+    }
+
     copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(codeBlock.innerText).then(() => {
-        copyBtn.textContent = '已複製！';
-        setTimeout(() => { copyBtn.textContent = '複製'; }, 2000);
-      }).catch(() => {
-        copyBtn.textContent = '失敗';
-      });
+      const textToCopy = codeBlock.innerText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          copyBtn.textContent = '已複製！';
+          setTimeout(() => { copyBtn.textContent = '複製'; }, 2000);
+        }).catch(() => {
+          fallbackCopyText(textToCopy, copyBtn);
+        });
+      } else {
+        fallbackCopyText(textToCopy, copyBtn);
+      }
     });
 
     pre.appendChild(copyBtn);

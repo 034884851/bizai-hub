@@ -55,6 +55,35 @@ def create_wiki(entry_id, title, desc, category="知識工程", raw_file=""):
 
     today_str = datetime.today().strftime('%Y-%m-%d')
     raw_filename = raw_file if raw_file else f"{entry_id}.md"
+    raw_filepath = os.path.join(ROOT_DIR, "raw", raw_filename)
+
+    # Karpathy Layer 1 Auto-provision: Ensure ground-truth raw file exists
+    if not os.path.exists(raw_filepath):
+        os.makedirs(os.path.join(ROOT_DIR, "raw"), exist_ok=True)
+        raw_stub = f"""# 原始筆記：{title}
+
+- 來源：BizAI Hub 客觀事實庫記錄
+- 整理者：BizAI AI Agent
+- 原始建檔日期：{today_str}
+- 知識類別：{category}
+
+---
+
+## 1. 概念背景與客觀事實
+{desc}
+
+## 2. 核心技術特徵與事實記錄
+- 事實要點 1：系統化架構與狀態運作定義。
+- 事實要點 2：環境 Harness、工具邊界與資料流轉標準。
+
+## 3. 商管實務與決策情境
+- 本詞條記錄企業經理人評估導入時之關鍵維度與組織效益。
+"""
+        with open(raw_filepath, "w", encoding="utf-8") as rf:
+            rf.write(raw_stub)
+        print(f"[SUCCESS] Auto-created Karpathy Layer 1 raw source: raw/{raw_filename}")
+    else:
+        print(f"[INFO] Verified existing Karpathy Layer 1 raw source: raw/{raw_filename}")
 
     content = content.replace("{{ENTRY_TITLE}}", title)
     content = content.replace("{{ENTRY_DESCRIPTION}}", desc)

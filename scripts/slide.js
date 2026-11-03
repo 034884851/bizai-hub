@@ -21,10 +21,10 @@ class SlideDeckController {
   }
 
   init() {
-    // 1. Check URL Hash (e.g. #3 -> slide index 2)
+    // 1. Check URL Hash (e.g. #3 or #slide-3 -> slide index 2)
     const hash = window.location.hash;
     if (hash && hash.startsWith('#')) {
-      const pageNum = parseInt(hash.replace('#', ''), 10);
+      const pageNum = parseInt(hash.replace(/^#(?:slide-)?/, ''), 10);
       if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= this.totalSlides) {
         this.currentIndex = pageNum - 1;
       }
@@ -43,7 +43,7 @@ class SlideDeckController {
 
     // Hash change listener
     window.addEventListener('hashchange', () => {
-      const hashNum = parseInt(window.location.hash.replace('#', ''), 10);
+      const hashNum = parseInt(window.location.hash.replace(/^#(?:slide-)?/, ''), 10);
       if (!isNaN(hashNum) && hashNum >= 1 && hashNum <= this.totalSlides) {
         this.goTo(hashNum - 1, false);
       }
@@ -59,12 +59,14 @@ class SlideDeckController {
 
     switch (e.key) {
       case 'ArrowRight':
+      case 'ArrowDown':
       case 'PageDown':
       case ' ':
         e.preventDefault();
         this.next();
         break;
       case 'ArrowLeft':
+      case 'ArrowUp':
       case 'PageUp':
         e.preventDefault();
         this.prev();
@@ -124,6 +126,10 @@ class SlideDeckController {
     if (index < 0 || index >= this.totalSlides) return;
     this.currentIndex = index;
     this.updateUI();
+
+    if (this.slides[this.currentIndex]) {
+      this.slides[this.currentIndex].scrollTop = 0;
+    }
 
     if (updateHash) {
       history.replaceState(null, '', `#${this.currentIndex + 1}`);
