@@ -5,7 +5,7 @@
 ---
 
 ## 🎯 一、專案目的與核心願景 (Mission & Architecture)
-- **專案名稱**：BizAI Hub・政大企管 AI Agent 落地實戰講義庫與知識 Wiki
+- **專案名稱**：BizAI Hub・中原企管 AI Agent 落地實戰講義庫與知識 Wiki
 - **專案目的**：
   1. 純靜態、零依賴、GitHub Pages 友善架構（純 HTML5 + Modern CSS + Vanilla JS）。
   2. 借鑑國立政治大學 TAICA / DiveAI「呆一布講義庫」手帳風互動設計。

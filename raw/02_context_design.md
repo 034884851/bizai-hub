@@ -1,7 +1,7 @@
 # 原始筆記 02：從 Prompt Engineering 到 Context Engineering
 
 - 來源：商管企管數位轉型實戰專題筆記
-- 整理者：Simon (政大 企管系)
+- 整理者：Simon (中原 企管系)
 - 原始建檔日期：2026-11-03
 
 ---

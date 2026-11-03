@@ -1,7 +1,7 @@
 # 原始筆記 03：Andrej Karpathy 的 LLM Wiki 架構思維
 
 - 來源：Andrej Karpathy（OpenAI 共同創辦人、前 Tesla AI 總監）公開架構觀點
-- 整理者：Simon (政大 企管系)
+- 整理者：Simon (中原 企管系)
 - 原始建檔日期：2026-11-03
 
 ---

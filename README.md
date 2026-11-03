@@ -1,4 +1,4 @@
-# BizAI Hub・政大企管 AI Agent 落地實戰講義庫與知識 Wiki
+# BizAI Hub・中原企管 AI Agent 落地實戰講義庫與知識 Wiki
 
 [![Site Status](https://img.shields.io/badge/Status-Live%20Ready-brightgreen)](https://simon4884851.github.io/bizai-hub/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
